@@ -31,42 +31,44 @@ int main()
 	int randNumber;
 	vector<string> woerter;
 	
-	for (string line; getline(file, line);) {
-		woerter.push_back(line);
-		++numberoflines;
+	for (string line; getline(file, line);) {	//Checks the .txt File
+		woerter.push_back(line);				//counts how many lines it has
+		++numberoflines;						//and creates a Vector with all the words
 	}
 	
 	randNumber = rand() % numberoflines;
 
-	word = woerter.at(randNumber);
+	word = woerter.at(randNumber); //Assigns a random word to the word that has to be guesses
 	winword = word;
 	
 
-	string hiddenword(word.length(), '_');
+	string hiddenword(word.length(), '_'); //This string will be shown on the console and it shows the correct inputs
 	int pos = 0, glength = 0, wlength = word.length();
 	int fehler = 0;
 	
 
-	while (hiddenword.find("_") != string::npos && fehler <= 5) {
+	while (hiddenword.find("_") != string::npos && fehler <= 5) { //stops if either the word has been guesses or not
 		system("cls");
 		cout << header;
-		if (!firsttimerunning)
-		cout << "Your guess was " << (rightguess == true ? "right" : "wrong") << "\t" << 5-fehler << " tries left\n";
-		firsttimerunning = false;
-		Art(fehler);
-		cout << endl << "\t\t\t\t\t\t" << hiddenword << endl /*<< word*/ << endl;
+		if (!firsttimerunning) //that it doesn't show if wrong or right input at start
+		cout << "Your guess was " << (rightguess == true ? "right" : "wrong") << "\t" << 5-fehler << " tries left\n"; //shows the user if he guessed right or not
+		firsttimerunning = false; //from now on it will be shown if input is right or wrong
+		Art(fehler); //Shows the Hangman
+		cout << endl << "\t\t\t\t\t\t" << hiddenword << endl << word << endl; //shows the hidden word
 		cout << "Your guess: ";
-		getline(cin, guess);
-		string uppercaseGuess(1, toupper(guess[0]));
-		string lowercaseGuess(1, tolower(guess[0]));
-		glength = guess.length();
-		string replace(glength, '_');
+		getline(cin, guess); //Input for the guess
+
+		string uppercaseGuess(1, toupper(guess[0]));	//makes an Uppercase string of the guess
+		string lowercaseGuess(1, tolower(guess[0]));	//makes a  Lowercase string of the guess
+		
+		glength = guess.length(); //length of guess
+		string replace(glength, '_'); //string which has as many '_' as the length of the string
 		if (word.find(uppercaseGuess) != string::npos || word.find(lowercaseGuess) != string::npos && guess != winword) {
-			while (word.find(uppercaseGuess) != string::npos || word.find(lowercaseGuess) != string::npos) {
-				if (word.find(uppercaseGuess)!=string::npos)
+			while (word.find(uppercaseGuess) != string::npos || word.find(lowercaseGuess) != string::npos) { //changes the underscore to the guesses letter as many times as needed
+				if (word.find(uppercaseGuess)!=string::npos) //checks if the word in uppercase is same as in lowercase
 				{
-					pos = word.find(uppercaseGuess);
-					guess[0] = uppercaseGuess[0];
+					pos = word.find(uppercaseGuess); //gets the position where the guess matched with the word
+					guess[0] = uppercaseGuess[0]; 
 					hiddenword.replace(pos, glength, guess);
 				}
 				else
